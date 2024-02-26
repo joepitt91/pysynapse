@@ -210,6 +210,8 @@ class Event:
 
 
 class EventReport:
+    """An Event (Abuse) Report."""
+
     def __init__(self, homeserver: "Homeserver", report_id: int) -> None:
         self._homeserver = homeserver
         report: dict[str, Any] = homeserver.api_get(
