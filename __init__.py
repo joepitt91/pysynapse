@@ -75,13 +75,14 @@ class BackgroundUpdateStatus:
 class Event:
     """Details of changes to a room's state."""
 
+    # pylint: disable-next=too-many-arguments
     def __init__(
         self,
         homeserver: "Homeserver",
         room_id: str,
         event_id: str,
         origin_server_ts: int,
-        type: str,
+        event_type: str,
         user_id: str,
         content: dict[str, Any],
     ) -> None:
@@ -89,20 +90,22 @@ class Event:
         self._room_id: Final[str] = room_id
         self._event_id: Final[str] = event_id
         self._origin_server_ts: Final[int] = origin_server_ts
-        self._type: Final[str] = type
+        self._type: Final[str] = event_type
         self._user_id: Final[str] = user_id
         self._content: dict[str, Any] = content
 
     @classmethod
-    def from_dict(cls, homeserver: "Homeserver", object: dict[str, Any]) -> "Event":
+    def from_dict(
+        cls, homeserver: "Homeserver", source_object: dict[str, Any]
+    ) -> "Event":
         return cls(
             homeserver,
-            object["room_id"],
-            object["event_id"],
-            object["origin_server_ts"],
-            object["type"],
-            object["user_id"],
-            object["content"],
+            source_object["room_id"],
+            source_object["event_id"],
+            source_object["origin_server_ts"],
+            source_object["type"],
+            source_object["user_id"],
+            source_object["content"],
         )
 
     @classmethod
