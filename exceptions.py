@@ -1,3 +1,5 @@
+"""Exceptions for PySynapse"""
+
 # SPDX-FileCopyrightText: 2024 Joe Pitt
 #
 # SPDX-License-Identifier: GPL-3.0-only
