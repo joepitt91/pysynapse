@@ -143,13 +143,13 @@ class Event:
         )
 
     def __str__(self) -> str:
-        if type(self.body) == str:
+        if isinstance(self.body, str):
             return self.body
         else:
             if "content" in self._content:
-                return f"{self.type}: {self.content['content']}"
+                return f"{self.event_type}: {self.content['content']}"
             else:
-                return f"{self.type}: {self.content}"
+                return f"{self.event_type}: {self.content}"
 
     @property
     def body(self) -> Optional[str]:
@@ -179,7 +179,7 @@ class Event:
     @property
     def encrypted(self) -> bool:
         """If the event is encrypted."""
-        return self.type == "m.room.encrypted"
+        return self.event_type == "m.room.encrypted"
 
     @property
     def event_id(self) -> str:
@@ -199,7 +199,7 @@ class Event:
         return timestamp_ms_to_datetime(self._origin_server_ts)
 
     @property
-    def type(self) -> str:
+    def event_type(self) -> str:
         """The type of state change that occurred."""
         return self._type
 
@@ -316,9 +316,9 @@ class EventReport:
     @property
     def sender(self) -> "User":
         """This is the user who sent the original message/event that was reported."""
-        if type(self._sender) == User:
+        if isinstance(self._sender, User):
             return self._sender
-        elif type(self._sender) == str:
+        elif isinstance(self._sender, str):
             return User(self._homeserver, self._sender)
         else:
             raise TypeError("sender must be User or str")
@@ -868,11 +868,11 @@ class Homeserver:
             int: How many items were deleted
         """
 
-        if type(user) == User:
+        if isinstance(user, User):
             return self.api_delete(
                 endpoints.USER_MEDIA.format(user_id=user.name), {"limit": limit}
             )["total"]
-        elif type(user) == str:
+        elif isinstance(user, str):
             return self.api_delete(
                 endpoints.USER_MEDIA.format(user_id=user), {"limit": limit}
             )["total"]
@@ -1062,23 +1062,23 @@ class Homeserver:
         """
         data: Dict[str, Any] = {}
 
-        if type(user) == User:
+        if isinstance(user, User):
             data["user_id"] = user.name
-        elif type(user) == str:
+        elif isinstance(user, str):
             data["user_id"] = user
         else:
             raise TypeError("user_id must be User or str")
 
-        if type(expiration) == datetime:
+        if isinstance(expiration, datetime):
             data["expiration_ts"] = datetime_to_timestamp_ms(expiration)
-        elif type(expiration) == int:
+        elif isinstance(expiration, int):
             data["expiration_ts"] = expiration
         elif expiration == None:
             pass
         else:
             raise TypeError("expiration must be datetime, int, or None")
 
-        if type(enable_renewal_emails) == bool:
+        if isinstance(enable_renewal_emails, bool):
             data["enable_renewal_emails"] = enable_renewal_emails
         else:
             raise TypeError("enable_renewal_emails must be bool")
@@ -1133,9 +1133,9 @@ class Homeserver:
             int: The number of items quarantined.
             Literal[False]: If the quarantining failed.
         """
-        if type(room) == Room:
+        if isinstance(room, Room):
             room_id = room.id
-        elif type(room) == str:
+        elif isinstance(room, str):
             room_id = room
         else:
             raise TypeError("room must be a Room or a str")
@@ -1163,9 +1163,9 @@ class Homeserver:
             int: The number of items quarantined.
             Literal[False]: If the quarantining failed.
         """
-        if type(user) == User:
+        if isinstance(user, User):
             user_id = user.name
-        elif type(user) == str:
+        elif isinstance(user, str):
             user_id = user
         else:
             raise TypeError("user must be a User or a str")
@@ -1648,7 +1648,7 @@ class Room:
         return self._topic
 
     @property
-    def type(self) -> Optional[str]:
+    def room_type(self) -> Optional[str]:
         """The type of the room taken from the room's creation event.
 
         For example "m.space" if the room is a space."""
@@ -1842,7 +1842,7 @@ class Room:
             user (User | str): The user to invite.
         """
 
-        if type(user) == User:
+        if isinstance(user, User):
             user_id = user.name
         else:
             user_id = user
@@ -1862,9 +1862,9 @@ class Room:
             TypeError: If user is not a User or a str object.
         """
 
-        if type(user) == User:
+        if isinstance(user, User):
             user_id = user.name
-        elif type(user) == str:
+        elif isinstance(user, str):
             user_id = user
         else:
             raise TypeError("user must be a User or str object")
@@ -1936,9 +1936,9 @@ class Room:
             str: The ID of the purge job that was started.
         """
 
-        if type(event) == Event:
+        if isinstance(event, Event):
             event_id = event.event_id
-        elif type(event) == str:
+        elif isinstance(event, str):
             event_id = event
         else:
             raise TypeError("event must be a Event or a str")
