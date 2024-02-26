@@ -84,7 +84,7 @@ class Event:
         origin_server_ts: int,
         event_type: str,
         user_id: str,
-        content: dict[str, Any],
+        content: Dict[str, Any],
     ) -> None:
         self._homeserver: Final[Homeserver] = homeserver
         self._room_id: Final[str] = room_id
@@ -92,17 +92,17 @@ class Event:
         self._origin_server_ts: Final[int] = origin_server_ts
         self._type: Final[str] = event_type
         self._user_id: Final[str] = user_id
-        self._content: dict[str, Any] = content
+        self._content: Dict[str, Any] = content
 
     @classmethod
     def from_dict(
-        cls, homeserver: "Homeserver", source_object: dict[str, Any]
+        cls, homeserver: "Homeserver", source_object: Dict[str, Any]
     ) -> "Event":
         """Create an Event from a dictionary returned by the API.
 
         Args:
             homeserver (Homeserver): The Homeserver the Event is from.
-            source_object (dict[str, Any]): The dictionary returned by the API.
+            source_object (Dict[str, Any]): The dictionary returned by the API.
 
         Returns:
             Event: The generated Event.
@@ -120,13 +120,13 @@ class Event:
 
     @classmethod
     def from_event_report(
-        cls, homeserver: "Homeserver", event_report: dict[str, Any]
+        cls, homeserver: "Homeserver", event_report: Dict[str, Any]
     ) -> "Event":
         """Create an Event from an event report returned by the API.
 
         Args:
             homeserver (Homeserver): The Homeserver the event report is from.
-            source_object (dict[str, Any]): The event report returned by the API.
+            source_object (Dict[str, Any]): The event report returned by the API.
 
         Returns:
             Event: The generated Event.
@@ -172,7 +172,7 @@ class Event:
             return None
 
     @property
-    def content(self) -> dict[str, Any]:
+    def content(self) -> Dict[str, Any]:
         """Details of the state change."""
         return self._content
 
@@ -217,7 +217,7 @@ class EventReport:
 
     def __init__(self, homeserver: "Homeserver", report_id: int) -> None:
         self._homeserver = homeserver
-        report: dict[str, Any] = homeserver.api_get(
+        report: Dict[str, Any] = homeserver.api_get(
             endpoints.EVENT_REPORT_DETAILS.format(report_id=report_id)
         )
         self._id: Final[int] = report["id"]
@@ -232,7 +232,7 @@ class EventReport:
             self._sender = User(homeserver, report["sender"])
         except ValueError:
             self._sender = report["sender"]
-        context: Final[dict[str, Any]] = self._homeserver.api_get(
+        context: Final[Dict[str, Any]] = self._homeserver.api_get(
             endpoints.EVENT_CONTEXT.format(
                 room_id=self._room.id, event_id=self.event.event_id
             )
@@ -480,7 +480,7 @@ class Homeserver:
     def event_reports(self) -> List[EventReport]:
         """Event reports on the Homeserver."""
         event_reports: List[EventReport] = []
-        response: dict[str, Any] = {}
+        response: Dict[str, Any] = {}
         first = True
         while first or "next_token" in response:
             if first:
@@ -522,7 +522,7 @@ class Homeserver:
     def rooms(self) -> List["Room"]:
         """Local and remote rooms on the Homeserver."""
         rooms: List[Room] = []
-        response: dict[str, Any] = {}
+        response: Dict[str, Any] = {}
         first = True
         while first or "next_batch" in response:
             if first:
@@ -589,7 +589,7 @@ class Homeserver:
     @staticmethod
     def _handle_response(
         response: Response,
-    ) -> dict[str, Any]:
+    ) -> Dict[str, Any]:
         if response.status_code == 200:
             try:
                 return response.json()
@@ -608,9 +608,9 @@ class Homeserver:
     def api_delete(
         self,
         uri: str,
-        parameters: Optional[dict[str, Any]] = None,
-        json: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
+        parameters: Optional[Dict[str, Any]] = None,
+        json: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Performs an authenticated DELETE request against the homeserver.
 
         Args:
@@ -626,7 +626,7 @@ class Homeserver:
             APIError: If the API responds in an unexpected way.
 
         Returns:
-            dict[str, Any]: The body of the API's response, converted to a dict or list
+            Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
         url = f"{self._base_url}/{uri}"
@@ -657,8 +657,8 @@ class Homeserver:
     def api_get(
         self,
         uri: str,
-        parameters: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
+        parameters: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Performs an authenticated GET request against the homeserver.
 
         Args:
@@ -673,7 +673,7 @@ class Homeserver:
             APIError: If the API responds in an unexpected way.
 
         Returns:
-            dict[str, Any]: The body of the API's response, converted to a dict or list
+            Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
         url = f"{self._base_url}/{uri}"
@@ -695,9 +695,9 @@ class Homeserver:
     def api_post(
         self,
         uri: str,
-        parameters: Optional[dict[str, Any]] = None,
-        json: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
+        parameters: Optional[Dict[str, Any]] = None,
+        json: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Performs an authenticated POST request against the homeserver.
 
         Args:
@@ -713,7 +713,7 @@ class Homeserver:
             APIError: If the API responds in an unexpected way.
 
         Returns:
-            dict[str, Any]: The body of the API's response, converted to a dict or list
+            Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
         url = f"{self._base_url}/{uri}"
@@ -744,9 +744,9 @@ class Homeserver:
     def api_put(
         self,
         uri: str,
-        parameters: Optional[dict[str, Any]] = None,
-        json: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
+        parameters: Optional[Dict[str, Any]] = None,
+        json: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
         """Performs an authenticated PUT request against the homeserver.
 
         Args:
@@ -762,7 +762,7 @@ class Homeserver:
             APIError: If the API responds in an unexpected way.
 
         Returns:
-            dict[str, Any]: The body of the API's response, converted to a dict or list
+            Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
         url = f"{self._base_url}/{uri}"
@@ -1060,7 +1060,7 @@ class Homeserver:
         Returns:
             datetime: _description_
         """
-        data: dict[str, Any] = {}
+        data: Dict[str, Any] = {}
 
         if type(user) == User:
             data["user_id"] = user.name
@@ -1265,7 +1265,7 @@ class RegistrationToken:
             RegistrationToken: The newly created token.
         """
 
-        token_data: dict[str, Any] = {}
+        token_data: Dict[str, Any] = {}
         if token is not None:
             token_data["token"] = token
         if length is not None:
@@ -1599,7 +1599,7 @@ class Room:
     def messages(self) -> List[Event]:
         """Messages sent in the room."""
         messages: List[Event] = []
-        response: dict[str, Any] = {}
+        response: Dict[str, Any] = {}
         first = True
         while first or "end" in response:
             if first:
@@ -1744,7 +1744,7 @@ class Room:
             bool: If the room was deleted successfully.
         """
 
-        data: dict[str, Union[str, bool]] = {"block": block_rejoining, "purge": purge}
+        data: Dict[str, Union[str, bool]] = {"block": block_rejoining, "purge": purge}
 
         if purge and force_purge:
             data["force_purge"] = True
@@ -1821,7 +1821,7 @@ class Room:
             Event: The event closet to the timestamp
         """
 
-        filters: dict[str, Any] = {"ts": datetime_to_timestamp_ms(timestamp)}
+        filters: Dict[str, Any] = {"ts": datetime_to_timestamp_ms(timestamp)}
         if before:
             filters["dir"] = "b"
 
@@ -1943,7 +1943,7 @@ class Room:
         else:
             raise TypeError("event must be a Event or a str")
 
-        filters: dict[str, Any] = {
+        filters: Dict[str, Any] = {
             "delete_local_events": delete_local_events,
             "purge_up_to_event_id": event_id,
         }
@@ -2171,11 +2171,11 @@ class User:
         return self._displayname
 
     @property
-    def experimental_features(self) -> dict[str, bool]:
+    def experimental_features(self) -> Dict[str, bool]:
         """list which features are enabled/disabled for a given user
 
         Returns:
-            dict[str, bool]: A list of known experimental feature codes and their status
+            Dict[str, bool]: A list of known experimental feature codes and their status
         """
         return self._homeserver.api_get(
             endpoints.EXPERIMENTAL_FEATURES.format(user_id=self.name)
