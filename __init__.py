@@ -212,6 +212,9 @@ class Event:
 class EventReport:
     """An Event (Abuse) Report."""
 
+    # pylint: disable=too-many-instance-attributes
+    # All attributes are required for an Event Report.
+
     def __init__(self, homeserver: "Homeserver", report_id: int) -> None:
         self._homeserver = homeserver
         report: dict[str, Any] = homeserver.api_get(
@@ -1425,6 +1428,9 @@ class RegistrationToken:
 class Room:
     """A room on a synapse matrix server."""
 
+    # pylint: disable=too-many-instance-attributes
+    # All attributes are required for a Room.
+
     def __init__(
         self, homeserver: Homeserver, room_id: str, notices_user: Optional[str] = None
     ) -> None:
@@ -2022,6 +2028,9 @@ class ThreePID:
 
 class User:
     """A user on a Matrix server"""
+
+    # pylint: disable=too-many-instance-attributes
+    # All attributes are required for a User.
 
     def __init__(self, homeserver: Homeserver, user_id: str) -> None:
         self._homeserver: Final[Homeserver] = homeserver
