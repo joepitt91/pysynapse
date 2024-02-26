@@ -1992,7 +1992,6 @@ class ThreePID:
         self._address: Final[str] = address
         self._added: Final[int] = added
         self._validated: Final[Optional[int]] = validated
-        pass
 
     def __str__(self) -> str:
         if self._validated is not None:
