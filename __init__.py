@@ -98,6 +98,16 @@ class Event:
     def from_dict(
         cls, homeserver: "Homeserver", source_object: dict[str, Any]
     ) -> "Event":
+        """Create an Event from a dictionary returned by the API.
+
+        Args:
+            homeserver (Homeserver): The Homeserver the Event is from.
+            source_object (dict[str, Any]): The dictionary returned by the API.
+
+        Returns:
+            Event: The generated Event.
+        """
+
         return cls(
             homeserver,
             source_object["room_id"],
@@ -112,6 +122,16 @@ class Event:
     def from_event_report(
         cls, homeserver: "Homeserver", event_report: dict[str, Any]
     ) -> "Event":
+        """Create an Event from an event report returned by the API.
+
+        Args:
+            homeserver (Homeserver): The Homeserver the event report is from.
+            source_object (dict[str, Any]): The event report returned by the API.
+
+        Returns:
+            Event: The generated Event.
+        """
+
         return Event(
             homeserver,
             event_report["room_id"],
@@ -133,6 +153,7 @@ class Event:
 
     @property
     def body(self) -> Optional[str]:
+        """The body of the message where it has one."""
         if self.encrypted:
             return "<Encrypted>"
         try:
@@ -157,6 +178,7 @@ class Event:
 
     @property
     def encrypted(self) -> bool:
+        """If the event is encrypted."""
         return self.type == "m.room.encrypted"
 
     @property
@@ -451,6 +473,7 @@ class Homeserver:
 
     @property
     def event_reports(self) -> List[EventReport]:
+        """Event reports on the Homeserver."""
         event_reports: List[EventReport] = []
         response: dict[str, Any] = {}
         first = True
@@ -474,6 +497,7 @@ class Homeserver:
 
     @property
     def registration_tokens(self) -> List["RegistrationToken"]:
+        """Registration tokens on the Homeserver."""
         registration_tokens: List[RegistrationToken] = []
         response = self.api_get(endpoints.REGISTRATION_TOKENS)
         for registration_token in response["registration_tokens"]:
@@ -491,6 +515,7 @@ class Homeserver:
 
     @property
     def rooms(self) -> List["Room"]:
+        """Local and remote rooms on the Homeserver."""
         rooms: List[Room] = []
         response: dict[str, Any] = {}
         first = True
@@ -513,6 +538,7 @@ class Homeserver:
 
     @property
     def server_notices_user(self) -> Optional[str]:
+        """The user used to send Server Notices on the Homeserver."""
         return self._notices_user
 
     @property
@@ -1325,6 +1351,7 @@ class RegistrationToken:
 
     @property
     def valid(self) -> bool:
+        """If the Registration Token is still valid."""
         if self.uses_left is not None and self.uses_left > 0:
             return True
         else:
@@ -1600,6 +1627,7 @@ class Room:
 
     @property
     def state_events(self) -> List[Event]:
+        """State change events in the Room."""
         response = self._homeserver.api_get(
             endpoints.ROOM_STATE.format(room_id=self.id)
         )["state"]
@@ -2125,6 +2153,7 @@ class User:
 
     @property
     def created(self) -> datetime:
+        """When the User was created."""
         return timestamp_ms_to_datetime(self._creation_ts)
 
     @property
