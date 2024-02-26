@@ -46,12 +46,14 @@ class BackgroundUpdateStatus:
 
     @property
     def db_name(self) -> str:
-        """The database name (usually Synapse is configured with a single database named 'master')."""
+        """The database name.
+
+        Usually Synapse is configured with a single database named 'master'"""
         return self.db_name
 
     @property
     def duration(self) -> float:
-        """How long the background process has been running in milliseconds, not including time spent sleeping."""
+        """How long the background process has been running in milliseconds, excl. sleeping."""
         return self._total_duration_ms
 
     @property
@@ -61,7 +63,7 @@ class BackgroundUpdateStatus:
 
     @property
     def items(self) -> int:
-        """The total number of "items" processed (the meaning of 'items' depends on the update in question)."""
+        """The number of "items" processed (the meaning of 'items' depends on the operation)."""
         return self._total_item_count
 
     @property
@@ -386,7 +388,8 @@ class Homeserver:
             host (str, optional): The hostname / FQDN of the homeserver. Defaults to localhost.
             port (int, optional): The port the homeserver is running on. Defaults to 8008.
             secure (bool, optional): If the server is using HTTPS. Defaults to False.
-            verify (bool, optional): Whether to validate the HTTPS certificate of the homeserver. Defaults to False.
+            verify (bool, optional): Whether to validate the HTTPS certificate of the homeserver.
+                Defaults to False.
             notices_user (bool, optional): The user_id which sends server notices on the homeserver.
 
         Raises:
@@ -578,7 +581,8 @@ class Homeserver:
 
         Args:
             uri (str): The URI to DELETE
-            parameters (dict, optional): Any URI query string parameters to include. Defaults to None.
+            parameters (dict, optional): Any URI query string parameters to include.
+                Defaults to None.
             json (dict, optional): The body to POST to the API. Defaults to None.
 
         Raises:
@@ -625,7 +629,8 @@ class Homeserver:
 
         Args:
             uri (str): The URI to GET
-            parameters (dict, optional): Any URI query string parameters to include. Defaults to None.
+            parameters (dict, optional): Any URI query string parameters to include.
+                Defaults to None.
 
         Raises:
             NonJSONResponseError: If the response from the API is not well-formed JSON.
@@ -663,7 +668,8 @@ class Homeserver:
 
         Args:
             uri (str): The URI to POST to.
-            parameters (dict, optional): Any URI query string parameters to include. Defaults to None.
+            parameters (dict, optional): Any URI query string parameters to include.
+                Defaults to None.
             json (dict, optional): The body to POST to the API. Defaults to None.
 
         Raises:
@@ -711,7 +717,8 @@ class Homeserver:
 
         Args:
             uri (str): The URI to PUT to.
-            parameters (dict, optional): Any URI query string parameters to include. Defaults to None.
+            parameters (dict, optional): Any URI query string parameters to include.
+                Defaults to None.
             json (dict, optional): The body to PUT to the API. Defaults to None.
 
         Raises:
@@ -762,12 +769,13 @@ class Homeserver:
 
         Args:
             self (self): The self to delete from
-            days (int, optional): The number of days since last use that must have passed to delete.
-            hours (int, optional): The number of hours since last use that must have passed to delete.
-            minutes (int, optional): The number of minutes since last use that must have passed to delete.
-            seconds (int, optional): The number of seconds since last use that must have passed to delete.
+            days (int, optional): The number of days since last use before deletion.
+            hours (int, optional): The number of hours since last use before deletion.
+            minutes (int, optional): The number of minutes since last use before deletion.
+            seconds (int, optional): The number of seconds since last use before deletion.
             larger_than (int, optional): The minimum file size to delete. Defaults to 0.
-            keep_profiles (bool, optional): Whether to keep files that are still used in image data (e.g user profile, room avatar). Defaults to True.
+            keep_profiles (bool, optional): Whether to keep files that are still used in image data
+                (e.g user profile, room avatar). Defaults to True.
 
         Raises:
             ValueError: If no retention time is given.
@@ -924,10 +932,14 @@ class Homeserver:
 
         Args:
             self (self): The self to clear the cache on.
-            days (int, optional): The number of days since last access of media to keep cached. Defaults to 0.
-            hours (int, optional): The number of hours since last access of media to keep cached. Defaults to 0.
-            minutes (int, optional): The number of minutes since last access of media to keep cached. Defaults to 0.
-            seconds (int, optional): The number of seconds since last access of media to keep cached. Defaults to 0.
+            days (int, optional): The number of days since last access to keep cached.
+                Defaults to 0.
+            hours (int, optional): The number of hours since last access to keep cached.
+                Defaults to 0.
+            minutes (int, optional): The number of minutes since last access to keep cached.
+                Defaults to 0.
+            seconds (int, optional): The number of seconds since last access to keep cached.
+                Defaults to 0.
 
         Raises:
             ValueError: If no retention time is given.
@@ -1053,7 +1065,8 @@ class Homeserver:
         Args:
             self (self): The self to act on.
             media_id (str): The ID of the media to quarantine.
-            server_name (str, optional): The server name the media originated from. Defaults to `self.server_name`.
+            server_name (str, optional): The server name the media originated from.
+                Defaults to `self.server_name`.
 
         Returns:
             bool: If the media was successfully quarantined.
@@ -1157,7 +1170,8 @@ class Homeserver:
         Args:
             self (self): The self to act on.
             media_id (str): The ID of the media to release from quarantine.
-            server_name (str, optional): The server name the media originated from. Defaults to `self.server_name`.
+            server_name (str, optional): The server name the media originated from.
+                Defaults to `self.server_name`.
 
         Returns:
             bool: If the media was successfully released from quarantine.
@@ -1211,7 +1225,8 @@ class RegistrationToken:
             homeserver (Homeserver): The homeserver to create the token on.
             token (str, optional): The token value to use. Defaults to randomly generated.
             length (int, optional): The length of the generated token. Defaults to 16.
-            uses_allowed (int, optional): The number of uses allowed with the token. Defaults to unlimited.
+            uses_allowed (int, optional): The number of uses allowed with the token.
+                Defaults to unlimited.
             expiry_time (datetime, optional): When the token should expire. Defaults to never.
 
         Returns:
@@ -1597,7 +1612,9 @@ class Room:
 
     @property
     def type(self) -> Optional[str]:
-        """The type of the room taken from the room's creation event; for example "m.space" if the room is a space."""
+        """The type of the room taken from the room's creation event.
+
+        For example "m.space" if the room is a space."""
         return self._room_type
 
     @property
@@ -1624,18 +1641,23 @@ class Room:
         """Delete the room.
 
         Args:
-            block_rejoining (bool, optional): Prevent future attempts to join the room. Defaults to True.
-            purge (bool, optional): Remove all traces of the room from the database. Defaults to True.
-            force_purge (bool, optional): Force a purge even if there are local users still in the room.
-                                            Defaults to False.
-            new_room (bool, optional): Creates a new room with all current members in. Defaults to False.
+            block_rejoining (bool, optional): Prevent future attempts to join the room.
+                Defaults to True.
+            purge (bool, optional): Remove all traces of the room from the database.
+                Defaults to True.
+            force_purge (bool, optional): Force a purge even with local users still in the room.
+                Defaults to False.
+            new_room (bool, optional): Creates a new room with all current members in.
+                Defaults to False.
             new_room_owner (str, optional): Owner and admin of the new room.
-                                            The user ID must be on the local server, but does not necessarily have to
-                                            belong to a registered user. Defaults to self._homeserver.server_notices_user.
-            new_room_name (str, optional): The name of the new room. Defaults to "Content Violation Notification".
+                The user ID must be on the local server, but does not necessarily have to belong to
+                a registered user.
+                Defaults to self._homeserver.server_notices_user.
+            new_room_name (str, optional): The name of the new room.
+                Defaults to "Content Violation Notification".
             new_room_message (str, optional): The message that will be sent in the new room.
-                                                Defaults to "Sharing illegal content on this server is not permitted and
-                                                rooms in violation will be blocked".
+                Defaults to "Sharing illegal content on this server is not permitted and rooms in
+                violation will be blocked".
 
         Returns:
             bool: If the room was deleted successfully.
@@ -1669,14 +1691,17 @@ class Room:
             purge (bool, optional): Remove all traces of the room from the database. Defaults to True.
             force_purge (bool, optional): Force a purge even if there are local users still in the room.
                                             Defaults to False.
-            new_room (bool, optional): Creates a new room with all current members in. Defaults to False.
+            new_room (bool, optional): Creates a new room with all current members in.
+                Defaults to False.
             new_room_owner (str, optional): Owner and admin of the new room.
-                                            The user ID must be on the local server, but does not necessarily have to
-                                            belong to a registered user. Defaults to self._homeserver.server_notices_user.
-            new_room_name (str, optional): The name of the new room. Defaults to "Content Violation Notification".
+                The user ID must be on the local server, but does not necessarily have to belong to
+                a registered user.
+                Defaults to self._homeserver.server_notices_user.
+            new_room_name (str, optional): The name of the new room.
+                Defaults to "Content Violation Notification".
             new_room_message (str, optional): The message that will be sent in the new room.
-                                                Defaults to "Sharing illegal content on this server is not permitted and
-                                                rooms in violation will be blocked".
+                Defaults to "Sharing illegal content on this server is not permitted and rooms in
+                violation will be blocked".
 
         Returns:
             bool: If the room was deleted successfully.
@@ -1705,7 +1730,8 @@ class Room:
 
             if new_room_message is None:
                 data["message"] = (
-                    "Sharing illegal content on this server is not permitted and rooms in violation will be blocked."
+                    "Sharing illegal content on this server is not permitted and rooms in violation"
+                    "will be blocked."
                 )
             else:
                 data["message"] = new_room_message
@@ -1748,7 +1774,8 @@ class Room:
 
         Args:
             timestamp (datetime): The reference point in time.
-            before (bool, optional): Reverses search direction to the closest event before the timestamp. Defaults to False.
+            before (bool, optional): Reverses search to the closest event before the timestamp.
+                Defaults to False.
 
         Raises:
             ValueError: if no message matching the search is found in the room.
@@ -1823,8 +1850,9 @@ class Room:
             hours (int, optional): The number of hours of history to retain. Defaults to 0.
             minutes (int, optional): The number of minutes of history to retain. Defaults to 0.
             seconds (int, optional): The number of seconds of history to retain. Defaults to 0.
-            delete_local_events (bool, optional): Whether to delete local events, potentially the only copy of them.
-                                                    Defaults to False.
+            delete_local_events (bool, optional): Whether to delete local events.
+                Potentially the only copy of them.
+                Defaults to False.
 
         Raises:
             TypeError: If room is not a valid type.
@@ -1860,8 +1888,9 @@ class Room:
         Args:
             room (Room | str): The room to purge history from.
             event (Event | str): The earliest event to retain.
-            delete_local_events (bool, optional): Whether to delete local events, potentially the only copy of them.
-                                                    Defaults to False.
+            delete_local_events (bool, optional): Whether to delete local events.
+                Potentially the only copy of them.
+                Defaults to False.
 
         Raises:
             TypeError: If room or event are not valid types.
