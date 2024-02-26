@@ -1724,10 +1724,12 @@ class Room:
         """Trigger the asynchronous deletion of the room.
 
         Args:
-            block_rejoining (bool, optional): Prevent future attempts to join the room. Defaults to True.
-            purge (bool, optional): Remove all traces of the room from the database. Defaults to True.
-            force_purge (bool, optional): Force a purge even if there are local users still in the room.
-                                            Defaults to False.
+            block_rejoining (bool, optional): Prevent future attempts to join the room.
+                Defaults to True.
+            purge (bool, optional): Remove all traces of the room from the database.
+                Defaults to True.
+            force_purge (bool, optional): Force a purge even if there are local users in the room.
+                Defaults to False.
             new_room (bool, optional): Creates a new room with all current members in.
                 Defaults to False.
             new_room_owner (str, optional): Owner and admin of the new room.
