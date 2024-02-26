@@ -147,9 +147,9 @@ class Event:
             return self.body
         else:
             if "content" in self._content:
-                return "{}: {}".format(self.type, self.content["content"])
+                return f"{self.type}: {self.content['content']}"
             else:
-                return "{}: {}".format(self.type, self.content)
+                return f"{self.type}: {self.content}"
 
     @property
     def body(self) -> Optional[str]:
@@ -248,7 +248,7 @@ class EventReport:
             self._state.append(Event.from_dict(self._homeserver, event))
 
     def __str__(self) -> str:
-        return "Event Report: {}".format(self.id)
+        return f"Event Report: {self.id}"
 
     @property
     def event(self) -> Event:
@@ -299,19 +299,19 @@ class EventReport:
         """Human readable offensiveness score."""
         if self._score > -10:
             # 0 to -9
-            return "Inoffensive {}".format(self._score)
+            return f"Inoffensive {self._score}"
         elif self._score > -25:
             # -10 to -24
-            return "Questionable {}".format(self._score)
+            return f"Questionable {self._score}"
         elif self._score > -75:
             # -25 to -74
-            return "Offensive {}".format(self._score)
+            return f"Offensive {self._score}"
         elif self._score > -90:
             # -75 to -89
-            return "Highly Offensive {}".format(self._score)
+            return f"Highly Offensive {self._score}"
         else:
             # -90 to -100
-            return "Extremely Offensive {}".format(self._score)
+            return f"Extremely Offensive {self._score}"
 
     @property
     def sender(self) -> "User":
@@ -386,7 +386,7 @@ class ExternalID:
         self._external_id = external_id
 
     def __str__(self) -> str:
-        return "{}: {}".format(self._auth_provider, self._external_id)
+        return f"{self._auth_provider}: {self._external_id}"
 
     @property
     def provider(self) -> str:
@@ -428,11 +428,11 @@ class Homeserver:
 
         self._base_url: str
         if secure:
-            self._base_url = "https://{}:{}".format(host, port)
+            self._base_url = f"https://{host}:{port}"
         else:
-            self._base_url = "http://{}:{}".format(host, port)
+            self._base_url = f"http://{host}:{port}"
         if not url(self._base_url):
-            raise ValueError("{} is not a valid homeserver URL".format(self._base_url))
+            raise ValueError(f"{self._base_url} is not a valid homeserver URL")
 
         self._access_token: Final[str] = access_token
         self._verify = verify
@@ -629,11 +629,11 @@ class Homeserver:
             dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = "{}/{}".format(self._base_url, uri)
+        url = f"{self._base_url}/{uri}"
 
         headers = {
-            "Authorization": "Bearer {}".format(self._access_token),
-            "User-Agent": "PySynapse/{}".format(__version__.__version__),
+            "Authorization": f"Bearer {self._access_token}",
+            "User-Agent": f"PySynapse/{__version__.__version__}",
         }
         if json is not None:
             headers["Content-Type"] = "application/json"
@@ -676,11 +676,11 @@ class Homeserver:
             dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = "{}/{}".format(self._base_url, uri)
+        url = f"{self._base_url}/{uri}"
 
         headers = {
-            "Authorization": "Bearer {}".format(self._access_token),
-            "User-Agent": "PySynapse/{}".format(__version__.__version__),
+            "Authorization": f"Bearer {self._access_token}",
+            "User-Agent": f"PySynapse/{__version__.__version__}",
         }
 
         if self._verify is None:
@@ -716,11 +716,11 @@ class Homeserver:
             dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = "{}/{}".format(self._base_url, uri)
+        url = f"{self._base_url}/{uri}"
 
         headers = {
-            "Authorization": "Bearer {}".format(self._access_token),
-            "User-Agent": "PySynapse/{}".format(__version__.__version__),
+            "Authorization": f"Bearer {self._access_token}",
+            "User-Agent": f"PySynapse/{__version__.__version__}",
         }
         if json is not None:
             headers["Content-Type"] = "application/json"
@@ -765,11 +765,11 @@ class Homeserver:
             dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = "{}/{}".format(self._base_url, uri)
+        url = f"{self._base_url}/{uri}"
 
         headers = {
-            "Authorization": "Bearer {}".format(self._access_token),
-            "User-Agent": "PySynapse/{}".format(__version__.__version__),
+            "Authorization": f"Bearer {self._access_token}",
+            "User-Agent": f"PySynapse/{__version__.__version__}",
         }
         if json is not None:
             headers["Content-Type"] = "application/json"
@@ -904,12 +904,10 @@ class Homeserver:
 
         try:
             with open(save_to, "wb") as f:
-                url = "{}/{}".format(
-                    self._base_url,
-                    endpoints.MEDIA_DOWNLOAD.format(
-                        server_name=self.server_name, media_id=media_id
-                    ),
+                uri = endpoints.MEDIA_DOWNLOAD.format(
+                    server_name=self.server_name, media_id=media_id
                 )
+                url = f"{self._base_url}/{uri}"
                 response = http_get(url)
                 if response.status_code == 200:
                     f.write(response.content)
@@ -1313,7 +1311,7 @@ class RegistrationToken:
         if self.valid:
             return self._token
         else:
-            return "{} (invalid)".format(self._token)
+            return f"{self._token} (invalid)"
 
     @property
     def completed_registrations(self) -> int:
@@ -1472,11 +1470,11 @@ class Room:
 
     def __str__(self) -> str:
         if self._name is not None and self._canonical_alias is not None:
-            return "{} ({}) [{}]".format(self._name, self._canonical_alias, self._id)
+            return f"{self._name} ({self._canonical_alias}) [{self._id}]"
         elif self._name is not None and self._canonical_alias is None:
-            return "{} [{}]".format(self._name, self._id)
+            return f"{self._name} [{self._id}]"
         elif self._name is None and self._canonical_alias is not None:
-            return "{} [{}]".format(self._canonical_alias, self._id)
+            return f"{self._canonical_alias} [{self._id}]"
         else:
             return self._id
 
@@ -1804,7 +1802,7 @@ class Room:
         elif response["status"] == "failed":
             raise RoomDeletionError(response["error"])
         else:
-            raise APIError("Unknown status {}".format(response["status"]))
+            raise APIError(f"Unknown status {response['status']}")
 
     def get_message_by_timestamp(
         self, timestamp: datetime, before: bool = False
@@ -2000,7 +1998,7 @@ class ThreePID:
         if self._validated is not None:
             return self._address
         else:
-            return "{} (unverified)".format(self._address)
+            return f"{self._address} (unverified)"
 
     @property
     def added(self) -> datetime:
@@ -2130,9 +2128,9 @@ class User:
 
     def __str__(self) -> str:
         if self._displayname is not None:
-            return "{} ({})".format(self._displayname, self._name)
+            return f"{self._displayname} ({self._name})"
         else:
-            return "{}".format(self._name)
+            return f"{self._name}"
 
     @property
     def appservice_id(self) -> Optional[str]:
