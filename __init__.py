@@ -905,7 +905,7 @@ class Homeserver:
                     server_name=self.server_name, media_id=media_id
                 )
                 request_url = f"{self._base_url}/{uri}"
-                response = http_get(request_url)
+                response = http_get(request_url, timeout=5)
                 if response.status_code == 200:
                     f.write(response.content)
                 else:
