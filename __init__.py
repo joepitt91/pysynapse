@@ -4,6 +4,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-only
 
+# pylint: disable=too-many-lines
+# TODO consider how to sensibly split into multiple module files.
+
 from datetime import datetime, timedelta
 from hmac import new as hmac
 from hashlib import sha1
@@ -77,6 +80,7 @@ class Event:
     """Details of changes to a room's state."""
 
     # pylint: disable-next=too-many-arguments
+    # All arguments required to create an Event
     def __init__(
         self,
         homeserver: "Homeserver",
@@ -393,9 +397,13 @@ class ExternalID:
         return self._external_id
 
 
+# pylint: disable-next=too-many-public-methods
+# Homeserver is the root class with many possible actions provided by the upstream API
 class Homeserver:
     """A synapse homeserver"""
 
+    # pylint: disable-next=too-many-arguments
+    # All arguments required to create a Homeserver
     def __init__(
         self,
         access_token: str,
@@ -788,6 +796,8 @@ class Homeserver:
 
         return self._handle_response(response)
 
+    # pylint: disable-next=too-many-arguments
+    # Time arguments split for ease of use
     def delete_media_by_age(
         self,
         days: int = 0,
@@ -994,6 +1004,8 @@ class Homeserver:
             json={"job_name": "regenerate_directory"},
         )
 
+    # pylint: disable-next=too-many-arguments
+    # All arguments required to register a User
     def register_user(
         self,
         registration_secret: str,
@@ -1221,6 +1233,8 @@ class Homeserver:
 class RegistrationToken:
     """A token granting access to register a user account"""
 
+    # pylint: disable-next=too-many-arguments
+    # All arguments required to create a Registration Token
     def __init__(
         self,
         homeserver: Homeserver,
@@ -1237,6 +1251,8 @@ class RegistrationToken:
         self._completed: Final[int] = completed
         self._expiry_time: Optional[int] = expiry_time
 
+    # pylint: disable-next=too-many-arguments
+    # All arguments required to create a Registration Token
     @classmethod
     def create(
         cls,
@@ -1411,6 +1427,8 @@ class RegistrationToken:
         self._uses_allowed = uses_allowed
 
 
+# pylint: disable-next=too-many-public-methods
+# Rooms have many possible actions provided by the upstream API
 class Room:
     """A room on a synapse matrix server."""
 
@@ -1652,6 +1670,8 @@ class Room:
             endpoints.ROOM_BLOCK.format(room_id=self.id), json={"block": True}
         )
 
+    # pylint: disable-next=too-many-arguments
+    # All arguments required to delete a room
     def delete(
         self,
         block_rejoining: bool = True,
@@ -1698,6 +1718,8 @@ class Room:
         while not self.delete_async_complete(delete_id):
             sleep(2)
 
+    # pylint: disable-next=too-many-arguments
+    # All arguments required to delete a room
     def delete_async(
         self,
         block_rejoining: bool = True,
@@ -1859,6 +1881,8 @@ class Room:
             endpoints.ROOM_MAKE_ADMIN.format(room_id=self.id), json={"user_id": user_id}
         )
 
+    # pylint: disable-next=too-many-arguments
+    # Time arguments split for ease of use
     def purge_history_by_age(
         self,
         days: int = 0,
