@@ -6,6 +6,10 @@ SPDX-License-Identifier: GPL-3.0-only
 
 # PySynapse
 
+[![Pylint](https://github.com/joepitt91/pysynapse/actions/workflows/pylint.yml/badge.svg)](https://github.com/joepitt91/pysynapse/actions/workflows/pylint.yml)
+[![CodeQL](https://github.com/joepitt91/pysynapse/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/joepitt91/pysynapse/actions/workflows/github-code-scanning/codeql)
+[![CodeFactor](https://www.codefactor.io/repository/github/joepitt91/pysynapse/badge)](https://www.codefactor.io/repository/github/joepitt91/pysynapse)
+
 Python Synapse (Matrix) server admin API module.
 
 **NOTE:** This is my first time writing a Python module, its probably not perfect.
