@@ -338,7 +338,7 @@ class EventReport:
                 endpoints.EVENT_REPORT_DELETE.format(report_id=self.id)
             )
             return True
-        except:
+        except Exception:
             return False
 
     def server_notice_to_reporter(self, message: str) -> None:
