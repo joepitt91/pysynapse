@@ -1070,7 +1070,7 @@ class Homeserver:
             data["expiration_ts"] = datetime_to_timestamp_ms(expiration)
         elif isinstance(expiration, int):
             data["expiration_ts"] = expiration
-        elif expiration == None:
+        elif expiration is None:
             pass
         else:
             raise TypeError("expiration must be datetime, int, or None")
