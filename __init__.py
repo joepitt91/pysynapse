@@ -1252,8 +1252,8 @@ class RegistrationToken:
         self._expiry_time: Optional[int] = expiry_time
 
     # All arguments required to create a Registration Token
-    # pylint: disable-next=too-many-arguments
     @classmethod
+    # pylint: disable-next=too-many-arguments
     def create(
         cls,
         homeserver: Homeserver,
@@ -2034,9 +2034,12 @@ class ThreePID:
 class User:
     """A user on a Matrix server"""
 
-    # pylint: disable=too-many-instance-attributes
     # All attributes are required for a User.
+    # pylint: disable=too-many-instance-attributes
 
+    # There are multiple ways that a user may need to be created depending if they still exist or
+    # not and if they are local or remote if they do.
+    # pylint: disable-next=too-many-statements
     def __init__(self, homeserver: Homeserver, user_id: str) -> None:
         self._homeserver: Final[Homeserver] = homeserver
         self._admin: Final[bool]
