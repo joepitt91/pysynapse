@@ -31,7 +31,8 @@ from os.path import abspath, dirname, join
 try:
     from pysynapse import Homeserver
 except ImportError:
-    print("pysynapse not installed")
+    print("pysynapse not installed, install with:")
+    print("python3 -m pip install pysynapse")
     exit(1)
 
 config = ConfigParser()
@@ -48,6 +49,9 @@ homeserver = Homeserver(
     config.getboolean("homeserver", "verify", fallback=None),
     config.get("homeserver", "notices_user", fallback=None),
 )
+
+print(f"Connected to {homeserver.base_url} (Synapse {homeserver.server_version})")
+
 ```
 
 ### Print summary of event reports

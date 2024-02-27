@@ -1,7 +1,7 @@
 [project]
 name = "pysynapse"
 description = "Python Synapse (Matrix) server Admin API module."
-version = "0.0.1"
+version = "0.0.2"
 readme = "README.md"
 requires-python = "~=3.8"
 license = {file = "LICENSE"}
@@ -29,6 +29,9 @@ Source = "https://github.com/joepitt91/pysynapse"
 [build-system]
 requires = ["setuptools >= 61.0.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+"pysynapse" = ["py.typed"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
