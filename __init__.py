@@ -621,7 +621,7 @@ class Homeserver:
             Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = f"{self._base_url}/{uri}"
+        request_url = f"{self._base_url}/{uri}"
 
         headers = {
             "Authorization": f"Bearer {self._access_token}",
@@ -632,11 +632,11 @@ class Homeserver:
 
         if self._verify is None:
             response = http_delete(
-                url, params=parameters, headers=headers, timeout=5, json=json
+                request_url, params=parameters, headers=headers, timeout=5, json=json
             )
         else:
             response = http_delete(
-                url,
+                request_url,
                 params=parameters,
                 headers=headers,
                 timeout=5,
@@ -668,7 +668,7 @@ class Homeserver:
             Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = f"{self._base_url}/{uri}"
+        request_url = f"{self._base_url}/{uri}"
 
         headers = {
             "Authorization": f"Bearer {self._access_token}",
@@ -676,10 +676,16 @@ class Homeserver:
         }
 
         if self._verify is None:
-            response = http_get(url, params=parameters, headers=headers, timeout=5)
+            response = http_get(
+                request_url, params=parameters, headers=headers, timeout=5
+            )
         else:
             response = http_get(
-                url, params=parameters, headers=headers, timeout=5, verify=self._verify
+                request_url,
+                params=parameters,
+                headers=headers,
+                timeout=5,
+                verify=self._verify,
             )
 
         return self._handle_response(response)
@@ -708,7 +714,7 @@ class Homeserver:
             Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = f"{self._base_url}/{uri}"
+        request_url = f"{self._base_url}/{uri}"
 
         headers = {
             "Authorization": f"Bearer {self._access_token}",
@@ -719,11 +725,11 @@ class Homeserver:
 
         if self._verify is None:
             response = http_post(
-                url, params=parameters, headers=headers, timeout=5, json=json
+                request_url, params=parameters, headers=headers, timeout=5, json=json
             )
         else:
             response = http_post(
-                url,
+                request_url,
                 params=parameters,
                 headers=headers,
                 timeout=5,
@@ -757,7 +763,7 @@ class Homeserver:
             Dict[str, Any]: The body of the API's response, converted to a dict or list
         """
 
-        url = f"{self._base_url}/{uri}"
+        request_url = f"{self._base_url}/{uri}"
 
         headers = {
             "Authorization": f"Bearer {self._access_token}",
@@ -768,11 +774,11 @@ class Homeserver:
 
         if self._verify is None:
             response = http_put(
-                url, params=parameters, headers=headers, timeout=5, json=json
+                request_url, params=parameters, headers=headers, timeout=5, json=json
             )
         else:
             response = http_put(
-                url,
+                request_url,
                 params=parameters,
                 headers=headers,
                 timeout=5,
@@ -898,8 +904,8 @@ class Homeserver:
                 uri = endpoints.MEDIA_DOWNLOAD.format(
                     server_name=self.server_name, media_id=media_id
                 )
-                url = f"{self._base_url}/{uri}"
-                response = http_get(url)
+                request_url = f"{self._base_url}/{uri}"
+                response = http_get(request_url)
                 if response.status_code == 200:
                     f.write(response.content)
                 else:
