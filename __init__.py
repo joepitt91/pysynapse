@@ -869,12 +869,11 @@ class Homeserver:
             return self.api_delete(
                 endpoints.USER_MEDIA.format(user_id=user.name), {"limit": limit}
             )["total"]
-        elif isinstance(user, str):
+        if isinstance(user, str):
             return self.api_delete(
                 endpoints.USER_MEDIA.format(user_id=user), {"limit": limit}
             )["total"]
-        else:
-            raise TypeError("user must be a User or a str")
+        raise TypeError("user must be a User or a str")
 
     def disable_background_updates(self) -> bool:
         """Disables background updates on the homeserver
@@ -1745,8 +1744,7 @@ class Room:
                     raise ValueError(
                         "No new room owner given and homeserver has no server notices user set"
                     )
-                else:
-                    data["new_room_user_id"] = self._homeserver.server_notices_user
+                data["new_room_user_id"] = self._homeserver.server_notices_user
             else:
                 data["new_room_user_id"] = new_room_owner
 
