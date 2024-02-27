@@ -18,6 +18,7 @@ from requests import (
     put as http_put,
     Response,
 )
+from requests.exceptions import JSONDecodeError
 
 from . import __version__, endpoints
 from .exceptions import (
@@ -593,8 +594,8 @@ class Homeserver:
         if response.status_code == 200:
             try:
                 return response.json()
-            except:
-                raise NonJSONResponseError()
+            except JSONDecodeError as e:
+                raise NonJSONResponseError() from e
         elif response.status_code == 400:
             raise BadRequestError(response.json())
         elif response.status_code == 404:
