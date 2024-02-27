@@ -1,10 +1,10 @@
 [project]
 name = "pysynapse"
+description = "Python Synapse (Matrix) server Admin API module."
+version = "0.0.1"
 readme = "README.md"
 requires-python = "~=3.8"
-license = [
-    {file = "LICENSE"},
-]
+license = {file = "LICENSE"}
 authors = [
     {name = "Joe Pitt", email = "joe.pitt@joepitt.co.uk"},
 ]
@@ -22,7 +22,6 @@ dependencies = [
   "requests~=2.31.0",
   "validators~=0.22.0",
 ]
-dynamic = ["version", "description"]
 
 [project.urls]
 Source = "https://github.com/joepitt91/pysynapse"
