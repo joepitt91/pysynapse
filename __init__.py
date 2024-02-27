@@ -146,11 +146,9 @@ class Event:
     def __str__(self) -> str:
         if isinstance(self.body, str):
             return self.body
-        else:
-            if "content" in self._content:
-                return f"{self.event_type}: {self.content['content']}"
-            else:
-                return f"{self.event_type}: {self.content}"
+        if "content" in self._content:
+            return f"{self.event_type}: {self.content['content']}"
+        return f"{self.event_type}: {self.content}"
 
     @property
     def body(self) -> Optional[str]:
@@ -160,15 +158,13 @@ class Event:
         try:
             if self._content["msgtype"] == "m.text":
                 return self._content["body"]
-            else:
-                return None
+            return None
         except KeyError:
             pass
         try:
             if self._content["content"]["msgtype"] == "m.text":
                 return self._content["content"]["body"]
-            else:
-                return None
+            return None
         except KeyError:
             return None
 
@@ -276,8 +272,7 @@ class EventReport:
         """Comment made by the user in this report. May be blank."""
         if len(self._reason) == 0:
             return None
-        else:
-            return self._reason
+        return self._reason
 
     @property
     def received(self) -> datetime:
@@ -301,28 +296,26 @@ class EventReport:
         if self._score > -10:
             # 0 to -9
             return f"Inoffensive {self._score}"
-        elif self._score > -25:
+        if self._score > -25:
             # -10 to -24
             return f"Questionable {self._score}"
-        elif self._score > -75:
+        if self._score > -75:
             # -25 to -74
             return f"Offensive {self._score}"
-        elif self._score > -90:
+        if self._score > -90:
             # -75 to -89
             return f"Highly Offensive {self._score}"
-        else:
-            # -90 to -100
-            return f"Extremely Offensive {self._score}"
+        # -90 to -100
+        return f"Extremely Offensive {self._score}"
 
     @property
     def sender(self) -> "User":
         """This is the user who sent the original message/event that was reported."""
         if isinstance(self._sender, User):
             return self._sender
-        elif isinstance(self._sender, str):
+        if isinstance(self._sender, str):
             return User(self._homeserver, self._sender)
-        else:
-            raise TypeError("sender must be User or str")
+        raise TypeError("sender must be User or str")
 
     @property
     def state(self) -> List[Event]:
@@ -596,15 +589,13 @@ class Homeserver:
                 return response.json()
             except JSONDecodeError as e:
                 raise NonJSONResponseError() from e
-        elif response.status_code == 400:
+        if response.status_code == 400:
             raise BadRequestError(response.json())
-        elif response.status_code == 404:
+        if response.status_code == 404:
             raise EndpointNotFoundError()
-        elif response.status_code == 408:
+        if response.status_code == 408:
             raise BadAccessTokenError()
-
-        else:
-            raise APIError(response.status_code, response.content)
+        raise APIError(response.status_code, response.content)
 
     def api_delete(
         self,
@@ -854,8 +845,7 @@ class Homeserver:
             > 0
         ):
             return True
-        else:
-            return False
+        return False
 
     def delete_media_by_user(self, user: Union["User", str], limit: int = 100) -> int:
         """Delete all media created by a user.
@@ -1087,8 +1077,7 @@ class Homeserver:
         response = self.api_post(endpoints.RENEW_ACCOUNT, json=data)
         if "expiration_ts" in response:
             return timestamp_ms_to_datetime(response["expiration_ts"])
-        else:
-            raise APIError
+        raise APIError()
 
     def quarantine_media_by_id(
         self, media_id: str, server_name: Optional[str] = None
@@ -1311,8 +1300,7 @@ class RegistrationToken:
     def __str__(self) -> str:
         if self.valid:
             return self._token
-        else:
-            return f"{self._token} (invalid)"
+        return f"{self._token} (invalid)"
 
     @property
     def completed_registrations(self) -> int:
@@ -1324,8 +1312,7 @@ class RegistrationToken:
         """When the token expires. None for never."""
         if self._expiry_time is not None:
             return timestamp_ms_to_datetime(self._expiry_time)
-        else:
-            return None
+        return None
 
     @property
     def pending_registrations(self) -> int:
@@ -1342,24 +1329,19 @@ class RegistrationToken:
         """The total allowed registrations for this token. None for unlimited."""
         if self._uses_allowed is not None:
             return self._uses_allowed
-        else:
-            return None
+        return None
 
     @property
     def uses_left(self) -> Optional[int]:
         """The number of registrations remaining. None for unlimited."""
         if self._uses_allowed is not None:
             return self._uses_allowed - self._pending - self._completed
-        else:
-            return None
+        return None
 
     @property
     def valid(self) -> bool:
         """If the Registration Token is still valid."""
-        if self.uses_left is not None and self.uses_left > 0:
-            return True
-        else:
-            return False
+        return self.uses_left is not None and self.uses_left > 0
 
     def allow_unlimited_uses(self) -> None:
         """Allow unlimited uses of this token."""
@@ -1472,12 +1454,11 @@ class Room:
     def __str__(self) -> str:
         if self._name is not None and self._canonical_alias is not None:
             return f"{self._name} ({self._canonical_alias}) [{self._id}]"
-        elif self._name is not None and self._canonical_alias is None:
+        if self._name is not None and self._canonical_alias is None:
             return f"{self._name} [{self._id}]"
-        elif self._name is None and self._canonical_alias is not None:
+        if self._name is None and self._canonical_alias is not None:
             return f"{self._canonical_alias} [{self._id}]"
-        else:
-            return self._id
+        return self._id
 
     @property
     def avatar_url(self) -> Optional[str]:
@@ -1799,13 +1780,12 @@ class Room:
         )
         if response["status"] == "complete":
             return True
-        elif response["status"] in ["shutting_down", "purging", "active"]:
+        if response["status"] in ["shutting_down", "purging", "active"]:
             # active is an undocumented state seen when creating a new room
             return False
-        elif response["status"] == "failed":
+        if response["status"] == "failed":
             raise RoomDeletionError(response["error"])
-        else:
-            raise APIError(f"Unknown status {response['status']}")
+        raise APIError(f"Unknown status {response['status']}")
 
     def get_message_by_timestamp(
         self, timestamp: datetime, before: bool = False
@@ -1973,12 +1953,11 @@ class Room:
 
         if response["status"] == "complete":
             return True
-        elif response["status"] == "active":
+        if response["status"] == "active":
             return False
-        elif response["status"] == "failed":
+        if response["status"] == "failed":
             raise PurgeJobFailedError(response["error"])
-        else:
-            raise APIError(response)
+        raise APIError(response)
 
     def unblock(self) -> None:
         """Unblock users from joining the room."""
@@ -1999,8 +1978,7 @@ class ThreePID:
     def __str__(self) -> str:
         if self._validated is not None:
             return self._address
-        else:
-            return f"{self._address} (unverified)"
+        return f"{self._address} (unverified)"
 
     @property
     def added(self) -> datetime:
@@ -2022,8 +2000,7 @@ class ThreePID:
         """When the third party ID was validated"""
         if self._validated is not None:
             return timestamp_ms_to_datetime(self._validated)
-        else:
-            return None
+        return None
 
 
 class User:
@@ -2131,8 +2108,7 @@ class User:
     def __str__(self) -> str:
         if self._displayname is not None:
             return f"{self._displayname} ({self._name})"
-        else:
-            return f"{self._name}"
+        return f"{self._name}"
 
     @property
     def appservice_id(self) -> Optional[str]:
@@ -2159,8 +2135,7 @@ class User:
         """When the user consented"""
         if self._consent_ts is not None:
             return timestamp_ms_to_datetime(self._consent_ts)
-        else:
-            return None
+        return None
 
     @property
     def created(self) -> datetime:
