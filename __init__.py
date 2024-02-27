@@ -397,8 +397,8 @@ class ExternalID:
         return self._external_id
 
 
-# pylint: disable-next=too-many-public-methods
 # Homeserver is the root class with many possible actions provided by the upstream API
+# pylint: disable-next=too-many-public-methods
 class Homeserver:
     """A synapse homeserver"""
 
@@ -1427,8 +1427,8 @@ class RegistrationToken:
         self._uses_allowed = uses_allowed
 
 
-# pylint: disable-next=too-many-public-methods
 # Rooms have many possible actions provided by the upstream API
+# pylint: disable-next=too-many-public-methods
 class Room:
     """A room on a synapse matrix server."""
 
