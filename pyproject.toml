@@ -19,7 +19,7 @@ classifiers = [
   "Typing :: Typed"
 ]
 dependencies = [
-  "requests~=2.31.0",
+  "requests>=2.31,<2.33",
   "validators~=0.22.0",
 ]
 
