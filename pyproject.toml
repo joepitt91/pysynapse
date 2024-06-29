@@ -1,7 +1,10 @@
+# SPDX-FileCopyrightText: 2024 Joe Pitt
+#
+# SPDX-License-Identifier: GPL-3.0-only
 [project]
 name = "pysynapse"
 description = "Python Synapse (Matrix) server Admin API module."
-version = "0.0.2"
+version = "0.0.3"
 readme = "README.md"
 requires-python = "~=3.8"
 license = {file = "LICENSE"}
@@ -19,8 +22,8 @@ classifiers = [
   "Typing :: Typed"
 ]
 dependencies = [
-  "requests~=2.31.0",
-  "validators~=0.22.0",
+  "requests~=2.32.3",
+  "validators~=0.28.3",
 ]
 
 [project.urls]
