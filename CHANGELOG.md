@@ -3,6 +3,7 @@
 ## 0.0.3
 
 * (deps) bump requests and validators
+* (deps) bump GitHub Actions integrations
 
 ## 0.0.2
 
