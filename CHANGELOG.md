@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only
 * (deps) bump requests and validators
 * (deps) bump GitHub Actions integrations
 * (docs) add missing REUSE headers
+* (docs) update Contributor Covenant Code of Conduct
 
 ## 0.0.2
 
