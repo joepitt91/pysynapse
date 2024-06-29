@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Joe Pitt
+#
+# SPDX-License-Identifier: GPL-3.0-only
 [project]
 name = "pysynapse"
 description = "Python Synapse (Matrix) server Admin API module."

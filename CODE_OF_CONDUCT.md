@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2014 Coraline Ada Ehmke
+SPDX-FileCopyrightText: 2014-2024 Organization for Ethical Source
+
+SPDX-License-Identifier: CC-BY-4.0
+-->
 # Contributor Covenant Code of Conduct
 
 ## Our Pledge
