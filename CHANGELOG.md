@@ -5,6 +5,10 @@ SPDX-License-Identifier: GPL-3.0-only
 -->
 # Change Log
 
+## 0.0.4
+
+* chore(deps): bump requests and validators
+
 ## 0.0.3
 
 * (deps) bump requests and validators

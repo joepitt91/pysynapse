@@ -15,7 +15,7 @@ Python Synapse (Matrix) server admin API module.
 
 ## Requirements
 
-* Python3 (written on 3.11)
+* Python >=3.10
 * requests
 * validators
 
