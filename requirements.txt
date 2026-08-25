@@ -3,4 +3,4 @@
 # SPDX-License-Identifier: GPL-3.0-only
 
 requests~=2.32.3
-validators~=0.28.3
+validators>=0.28.3,<0.36.0
