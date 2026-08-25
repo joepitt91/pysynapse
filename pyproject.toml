@@ -1,12 +1,12 @@
-# SPDX-FileCopyrightText: 2024 Joe Pitt
+# SPDX-FileCopyrightText: 2024-2026 Joe Pitt
 #
 # SPDX-License-Identifier: GPL-3.0-only
 [project]
 name = "pysynapse"
 description = "Python Synapse (Matrix) server Admin API module."
-version = "0.0.3"
+version = "0.0.4"
 readme = "README.md"
-requires-python = "~=3.8"
+requires-python = "~=3.10"
 license = {file = "LICENSE"}
 authors = [
     {name = "Joe Pitt", email = "joe.pitt@joepitt.co.uk"},
@@ -22,15 +22,15 @@ classifiers = [
   "Typing :: Typed"
 ]
 dependencies = [
-  "requests~=2.32.3",
-  "validators~=0.28.3",
+  "requests~=2.34",
+  "validators~=0.35",
 ]
 
 [project.urls]
 Source = "https://github.com/joepitt91/pysynapse"
 
 [build-system]
-requires = ["setuptools >= 61.0.0"]
+requires = ["setuptools >= 84.0.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.package-data]

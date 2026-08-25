@@ -1,6 +1,6 @@
-# SPDX-FileCopyrightText: 2024 Joe Pitt
+# SPDX-FileCopyrightText: 2024-2026 Joe Pitt
 #
 # SPDX-License-Identifier: GPL-3.0-only
 
-requests~=2.32.3
-validators~=0.28.3
+requests~=2.34
+validators~=0.35
